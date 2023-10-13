@@ -1,258 +1,183 @@
-
-# InsightFace: 2D and 3D Face Analysis Project
-
-<div align="left">
-  <img src="https://insightface.ai/assets/img/custom/logo3.jpg" width="240"/>
-</div>
-
-InsightFace project is mainly maintained By [Jia Guo](mailto:guojia@gmail.com?subject=[GitHub]%20InsightFace%20Project) and [Jiankang Deng](https://jiankangdeng.github.io/). 
-
-For all main contributors, please check [contributing](#contributing).
-
-## License
-
-The code of InsightFace is released under the MIT License. There is no limitation for both academic and commercial usage.
-
-The training data containing the annotation (and the models trained with these data) are available for non-commercial research purposes only.
-
-Both manual-downloading models from our github repo and auto-downloading models with our [python-library](python-package) follow the above license policy(which is for non-commercial research purposes only).
-
-## Top News
-
-**`2023-08-08`**: We released the implementation of [Generalizing Gaze Estimation with Weak-Supervision from Synthetic Views](https://arxiv.org/abs/2212.02997) at [reconstruction/gaze](reconstruction/gaze).
-
-**`2023-05-03`**: We have launched the ongoing version of wild face anti-spoofing challenge. See details [here](https://github.com/deepinsight/insightface/tree/master/challenges/cvpr23-fas-wild#updates).
-
-**`2023-04-01`**: We move the swapping demo to Discord bot, which support editing on Midjourney generated images, see detail at [web-demos/swapping_discord](web-demos/swapping_discord).
-
-**`2023-02-13`**: We launch a large scale in the wild face anti-spoofing challenge on CVPR23 Workshop, see details at [challenges/cvpr23-fas-wild](challenges/cvpr23-fas-wild).
-
-**`2022-11-28`**: Single line code for facial identity swapping in our python packge ver 0.7, please check the example [here](examples/in_swapper).
-
-**`2022-10-28`**: [MFR-Ongoing](http://iccv21-mfr.com) website is refactored, please create issues if there's any bug.
-
-**`2022-09-22`**: Now we have [web-demos](web-demos): [face-localization](http://demo.insightface.ai:7007/), [face-recognition](http://demo.insightface.ai:7008/), and [face-swapping](http://demo.insightface.ai:7009/).
-
-**`2022-08-12`**: We achieved Rank-1st of 
-[Perspective Projection Based Monocular 3D Face Reconstruction Challenge](https://tianchi.aliyun.com/competition/entrance/531961/introduction)
-of [ECCV-2022 WCPA Workshop](https://sites.google.com/view/wcpa2022), [paper](https://arxiv.org/abs/2208.07142) and [code](reconstruction/jmlr).
-
-**`2022-03-30`**: [Partial FC](https://arxiv.org/abs/2203.15565) accepted by CVPR-2022.
-
-**`2022-02-23`**: [SCRFD](detection/scrfd) accepted by [ICLR-2022](https://iclr.cc/Conferences/2022).
-
-**`2021-11-30`**: [MFR-Ongoing](challenges/mfr) challenge launched(same with IFRT), which is an extended version of [iccv21-mfr](challenges/iccv21-mfr).
-
-**`2021-10-29`**: We achieved 1st place on the [VISA track](https://pages.nist.gov/frvt/plots/11/visa.html) of [NIST-FRVT 1:1](https://pages.nist.gov/frvt/html/frvt11.html) by using Partial FC (Xiang An, Jiankang Deng, Jia Guo).
-
-**`2021-10-11`**: [Leaderboard](https://insightface.ai/mfr21) of [ICCV21 - Masked Face Recognition Challenge](challenges/iccv21-mfr) released. Video: [Youtube](https://www.youtube.com/watch?v=lL-7l5t6x2w), [Bilibili](https://www.bilibili.com/video/BV15b4y1h79N/).
-
-**`2021-06-05`**: We launch a [Masked Face Recognition Challenge & Workshop](challenges/iccv21-mfr) on ICCV 2021.
-
-
-
 ## Introduction
 
-[InsightFace](https://insightface.ai) is an open source 2D&3D deep face analysis toolbox, mainly based on PyTorch and MXNet. 
+SCRFD is an efficient high accuracy face detection approach which initially described in [Arxiv](https://arxiv.org/abs/2105.04714), and accepted by ICLR-2022.
 
-Please check our [website](https://insightface.ai) for detail.
+Try out the Gradio Web Demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/hysts/insightface-SCRFD)
 
-The master branch works with **PyTorch 1.6+** and/or **MXNet=1.6-1.8**, with **Python 3.x**.
+<img src="https://github.com/nttstar/insightface-resources/blob/master/images/scrfd_evelope.jpg" width="400" alt="prcurve"/>
 
-InsightFace efficiently implements a rich variety of state of the art algorithms of face recognition, face detection and face alignment, which optimized for both training and deployment.
+## Performance
 
-## Quick Start
+Precision, flops and infer time are all evaluated on **VGA resolution**.
 
-Please start with our [python-package](python-package/), for testing detection, recognition and alignment models on input images.
+#### ResNet family
 
-
-### ArcFace Video Demo
-
-
-[<img src=https://insightface.ai/assets/img/github/facerecognitionfromvideo.PNG width="760" />](https://www.youtube.com/watch?v=y-D1tReryGA&t=81s)
-
-
-Please click the image to watch the Youtube video. For Bilibili users, click [here](https://www.bilibili.com/video/av38041494?from=search&seid=11501833604850032313).
-
-
-
-## Projects
-
-The [page](https://insightface.ai/projects) on InsightFace website also describes all supported projects in InsightFace.
-
-You may also interested in some [challenges](https://insightface.ai/challenges) hold by InsightFace.
+| Method              | Backbone        | Easy  | Medium | Hard  | \#Params(M) | \#Flops(G) | Infer(ms) |
+| ------------------- | --------------- | ----- | ------ | ----- | ----------- | ---------- | --------- |
+| DSFD (CVPR19)       | ResNet152       | 94.29 | 91.47  | 71.39 | 120.06      | 259.55     | 55.6      |
+| RetinaFace (CVPR20) | ResNet50        | 94.92 | 91.90  | 64.17 | 29.50       | 37.59      | 21.7      |
+| HAMBox (CVPR20)     | ResNet50        | 95.27 | 93.76  | 76.75 | 30.24       | 43.28      | 25.9      |
+| TinaFace (Arxiv20)  | ResNet50        | 95.61 | 94.25  | 81.43 | 37.98       | 172.95     | 38.9      |
+| - | - | - | - | - | - | - | - |
+| ResNet-34GF         | ResNet50        | 95.64 | 94.22  | 84.02 | 24.81       | 34.16      | 11.8      |
+| **SCRFD-34GF**      | Bottleneck Res  | 96.06 | 94.92  | 85.29 | 9.80        | 34.13      | 11.7      |
+| ResNet-10GF         | ResNet34x0.5    | 94.69 | 92.90  | 80.42 | 6.85        | 10.18      | 6.3       |
+| **SCRFD-10GF**      | Basic Res       | 95.16 | 93.87  | 83.05 | 3.86        | 9.98       | 4.9       |
+| ResNet-2.5GF        | ResNet34x0.25   | 93.21 | 91.11  | 74.47 | 1.62        | 2.57       | 5.4       |
+| **SCRFD-2.5GF**     | Basic Res       | 93.78 | 92.16  | 77.87 | 0.67        | 2.53       | 4.2       |
 
 
+#### Mobile family
 
-## Face Recognition
-
-### Introduction
-
-In this module, we provide training data, network settings and loss designs for deep face recognition.
-
-The supported methods are as follows:
-
-- [x] [ArcFace_mxnet (CVPR'2019)](recognition/arcface_mxnet)
-- [x] [ArcFace_torch (CVPR'2019)](recognition/arcface_torch)
-- [x] [SubCenter ArcFace (ECCV'2020)](recognition/subcenter_arcface)
-- [x] [PartialFC_mxnet (CVPR'2022)](recognition/partial_fc)
-- [x] [PartialFC_torch (CVPR'2022)](recognition/arcface_torch)
-- [x] [VPL (CVPR'2021)](recognition/vpl)
-- [x] [Arcface_oneflow](recognition/arcface_oneflow)
-- [x] [ArcFace_Paddle (CVPR'2019)](recognition/arcface_paddle)
-
-Commonly used network backbones are included in most of the methods, such as IResNet, MobilefaceNet, MobileNet, InceptionResNet_v2, DenseNet, etc..
+| Method              | Backbone        | Easy  | Medium | Hard  | \#Params(M) | \#Flops(G) | Infer(ms) |
+| ------------------- | --------------- | ----- | ------ | ----- | ----------- | ---------- | --------- |
+| RetinaFace (CVPR20) | MobileNet0.25   | 87.78 | 81.16  | 47.32 | 0.44        | 0.802      | 7.9       |
+| FaceBoxes (IJCB17)  | -               | 76.17 | 57.17  | 24.18 | 1.01        | 0.275      | 2.5       |
+| - | - | - | - | - | - | - | - |
+| MobileNet-0.5GF     | MobileNetx0.25  | 90.38 | 87.05  | 66.68 | 0.37        | 0.507      | 3.7       |
+| **SCRFD-0.5GF**     | Depth-wise Conv | 90.57 | 88.12  | 68.51 | 0.57        | 0.508      | 3.6       |
 
 
-### Datasets
+**X64 CPU Performance of SCRFD-0.5GF:**
 
-The training data includes, but not limited to the cleaned MS1M, VGG2 and CASIA-Webface datasets, which were already packed in MXNet binary format. Please [dataset](recognition/_datasets_) page for detail.
+| Test-Input-Size         | CPU Single-Thread   | Easy  | Medium | Hard  |
+| ----------------------- | -----------------   | ----- | ------ | ----- |
+| Original-Size(scale1.0) | -                   | 90.91 | 89.49  | 82.03 |
+| 640x480                 | 28.3ms              | 90.57 | 88.12  | 68.51 |
+| 320x240                 | 11.4ms              | -     | -      | -     |
 
-### Evaluation
+*precision and infer time are evaluated on AMD Ryzen 9 3950X, using the simple PyTorch CPU inference by setting `OMP_NUM_THREADS=1` (no mkldnn).*
 
-We provide standard IJB and Megaface evaluation pipelines in [evaluation](recognition/_evaluation_)
+## Installation
 
+Please refer to [mmdetection](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md#installation) for installation.
+ 
+  1. Install [mmcv](https://github.com/open-mmlab/mmcv). (mmcv-full==1.2.6 and 1.3.3 was tested)
+  2. Install build requirements and then install mmdet.
+       ```
+       pip install -r requirements/build.txt
+       pip install -v -e .  # or "python setup.py develop"
+       ```
 
-### Pretrained Models
+## Data preparation
 
-**Please check [Model-Zoo](https://github.com/deepinsight/insightface/wiki/Model-Zoo) for more pretrained models.**
+### WIDERFace:
+  1. Download WIDERFace datasets and put it under `data/retinaface`.
+  2. Download annotation files from [gdrive](https://drive.google.com/file/d/1UW3KoApOhusyqSHX96yEDRYiNkd3Iv3Z/view?usp=sharing) and put them under `data/retinaface/`
+ 
+   ```
+     data/retinaface/
+         train/
+             images/
+             labelv2.txt
+         val/
+             images/
+             labelv2.txt
+             gt/
+                 *.mat
+             
+   ```
+ 
 
-### Third-party Re-implementation of ArcFace
+#### Annotation Format 
 
-- TensorFlow: [InsightFace_TF](https://github.com/auroua/InsightFace_TF)
-- TensorFlow: [tf-insightface](https://github.com/AIInAi/tf-insightface)
-- TensorFlow:[insightface](https://github.com/Fei-Wang/insightface)
-- PyTorch: [InsightFace_Pytorch](https://github.com/TreB1eN/InsightFace_Pytorch)
-- PyTorch: [arcface-pytorch](https://github.com/ronghuaiyang/arcface-pytorch)
-- Caffe: [arcface-caffe](https://github.com/xialuxi/arcface-caffe)
-- Caffe: [CombinedMargin-caffe](https://github.com/gehaocool/CombinedMargin-caffe)
-- Tensorflow: [InsightFace-tensorflow](https://github.com/luckycallor/InsightFace-tensorflow)
-- TensorRT: [wang-xinyu/tensorrtx](https://github.com/wang-xinyu/tensorrtx)  
-- TensorRT: [InsightFace-REST](https://github.com/SthPhoenix/InsightFace-REST)
-- ONNXRuntime C++: [ArcFace-ONNXRuntime](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/ort/cv/glint_arcface.cpp)
-- ONNXRuntime Go: [arcface-go](https://github.com/jack139/arcface-go)
-- MNN: [ArcFace-MNN](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/mnn/cv/mnn_glint_arcface.cpp)
-- TNN: [ArcFace-TNN](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/tnn/cv/tnn_glint_arcface.cpp)
-- NCNN: [ArcFace-NCNN](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/ncnn/cv/ncnn_glint_arcface.cpp)
+*please refer to labelv2.txt for detail*
 
-## Face Detection
-
-### Introduction
-
-<div align="left">
-  <img src="https://insightface.ai/assets/img/github/11513D05.jpg" width="640"/>
-</div>
-
-In this module, we provide training data with annotation, network settings and loss designs for face detection training, evaluation and inference.
-
-The supported methods are as follows:
-
-- [x] [RetinaFace (CVPR'2020)](detection/retinaface)
-- [x] [SCRFD (Arxiv'2021)](detection/scrfd)
-- [x] [blazeface_paddle](detection/blazeface_paddle)
-
-[RetinaFace](detection/retinaface) is a practical single-stage face detector which is accepted by [CVPR 2020](https://openaccess.thecvf.com/content_CVPR_2020/html/Deng_RetinaFace_Single-Shot_Multi-Level_Face_Localisation_in_the_Wild_CVPR_2020_paper.html). We provide training code, training dataset, pretrained models and evaluation scripts. 
-
-[SCRFD](detection/scrfd) is an efficient high accuracy face detection approach which is initialy described in [Arxiv](https://arxiv.org/abs/2105.04714). We provide an easy-to-use pipeline to train high efficiency face detectors with NAS supporting.
-
-
-## Face Alignment
-
-### Introduction
-
-<div align="left">
-  <img src="https://insightface.ai/assets/img/custom/thumb_sdunet.png" width="600"/>
-</div>
-
-In this module, we provide datasets and training/inference pipelines for face alignment.
-
-Supported methods:
-
-- [x] [SDUNets (BMVC'2018)](alignment/heatmap)
-- [x] [SimpleRegression](alignment/coordinate_reg)
+For each image:
+  ```
+  # <image_path> image_width image_height
+  bbox_x1 bbox_y1 bbox_x2 bbox_y2 (<keypoint,3>*N)
+  ...
+  ...
+  # <image_path> image_width image_height
+  bbox_x1 bbox_y1 bbox_x2 bbox_y2 (<keypoint,3>*N)
+  ...
+  ...
+  ```
+Keypoints can be ignored if there is bbox annotation only.
 
 
-[SDUNets](alignment/heatmap) is a heatmap based method which accepted on [BMVC](http://bmvc2018.org/contents/papers/0051.pdf).
+## Training
 
-[SimpleRegression](alignment/coordinate_reg) provides very lightweight facial landmark models with fast coordinate regression. The input of these models is loose cropped face image while the output is the direct landmark coordinates.
-
-
-## Citation
-
-If you find *InsightFace* useful in your research, please consider to cite the following related papers:
-
+Example training command, with 4 GPUs:
 ```
-@inproceedings{ren2023pbidr,
-  title={Facial Geometric Detail Recovery via Implicit Representation},
-  author={Ren, Xingyu and Lattas, Alexandros and Gecer, Baris and Deng, Jiankang and Ma, Chao and Yang, Xiaokang},
-  booktitle={2023 IEEE 17th International Conference on Automatic Face and Gesture Recognition (FG)},  
-  year={2023}
- }
-
-@article{guo2021sample,
-  title={Sample and Computation Redistribution for Efficient Face Detection},
-  author={Guo, Jia and Deng, Jiankang and Lattas, Alexandros and Zafeiriou, Stefanos},
-  journal={arXiv preprint arXiv:2105.04714},
-  year={2021}
-}
-
-@inproceedings{gecer2021ostec,
-  title={OSTeC: One-Shot Texture Completion},
-  author={Gecer, Baris and Deng, Jiankang and Zafeiriou, Stefanos},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2021}
-}
-
-@inproceedings{an2020partical_fc,
-  title={Partial FC: Training 10 Million Identities on a Single Machine},
-  author={An, Xiang and Zhu, Xuhan and Xiao, Yang and Wu, Lan and Zhang, Ming and Gao, Yuan and Qin, Bin and
-  Zhang, Debing and Fu Ying},
-  booktitle={Arxiv 2010.05222},
-  year={2020}
-}
-
-@inproceedings{deng2020subcenter,
-  title={Sub-center ArcFace: Boosting Face Recognition by Large-scale Noisy Web Faces},
-  author={Deng, Jiankang and Guo, Jia and Liu, Tongliang and Gong, Mingming and Zafeiriou, Stefanos},
-  booktitle={Proceedings of the IEEE Conference on European Conference on Computer Vision},
-  year={2020}
-}
-
-@inproceedings{Deng2020CVPR,
-title = {RetinaFace: Single-Shot Multi-Level Face Localisation in the Wild},
-author = {Deng, Jiankang and Guo, Jia and Ververas, Evangelos and Kotsia, Irene and Zafeiriou, Stefanos},
-booktitle = {CVPR},
-year = {2020}
-}
-
-@inproceedings{guo2018stacked,
-  title={Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment},
-  author={Guo, Jia and Deng, Jiankang and Xue, Niannan and Zafeiriou, Stefanos},
-  booktitle={BMVC},
-  year={2018}
-}
-
-@article{deng2018menpo,
-  title={The Menpo benchmark for multi-pose 2D and 3D facial landmark localisation and tracking},
-  author={Deng, Jiankang and Roussos, Anastasios and Chrysos, Grigorios and Ververas, Evangelos and Kotsia, Irene and Shen, Jie and Zafeiriou, Stefanos},
-  journal={IJCV},
-  year={2018}
-}
-
-@inproceedings{deng2018arcface,
-title={ArcFace: Additive Angular Margin Loss for Deep Face Recognition},
-author={Deng, Jiankang and Guo, Jia and Niannan, Xue and Zafeiriou, Stefanos},
-booktitle={CVPR},
-year={2019}
-}
+CUDA_VISIBLE_DEVICES="0,1,2,3" PORT=29701 bash ./tools/dist_train.sh ./configs/scrfd/scrfd_1g.py 4
 ```
 
-## Contributing
+## WIDERFace Evaluation
 
-Main contributors:
+We use a pure python evaluation script without Matlab.
 
-- [Jia Guo](https://github.com/nttstar), ``guojia[at]gmail.com``
-- [Jiankang Deng](https://github.com/jiankangdeng) ``jiankangdeng[at]gmail.com``
-- [Xiang An](https://github.com/anxiangsir) ``anxiangsir[at]gmail.com``
-- [Jack Yu](https://github.com/szad670401) ``jackyu961127[at]gmail.com``
-- [Baris Gecer](https://barisgecer.github.io/) ``barisgecer[at]msn.com``
+```
+GPU=0
+GROUP=scrfd
+TASK=scrfd_2.5g
+CUDA_VISIBLE_DEVICES="$GPU" python -u tools/test_widerface.py ./configs/"$GROUP"/"$TASK".py ./work_dirs/"$TASK"/model.pth --mode 0 --out wouts
+```
+
+
+## Pretrained-Models
+
+|      Name      | Easy  | Medium | Hard  | FLOPs | Params(M) | Infer(ms) | Link                                                         |
+| :------------: | ----- | ------ | ----- | ----- | --------- | --------- | ------------------------------------------------------------ |
+|   SCRFD_500M   | 90.57 | 88.12  | 68.51 | 500M  | 0.57      | 3.6       | [download](https://1drv.ms/u/s!AswpsDO2toNKqyYWxScdiTITY4TQ?e=DjXof9) |
+|    SCRFD_1G    | 92.38 | 90.57  | 74.80 | 1G    | 0.64      | 4.1       | [download](https://1drv.ms/u/s!AswpsDO2toNKqyPVLI44ahNBsOMR?e=esPrBL) |
+|   SCRFD_2.5G   | 93.78 | 92.16  | 77.87 | 2.5G  | 0.67      | 4.2       | [download](https://1drv.ms/u/s!AswpsDO2toNKqyTIXnzB1ujPq4th?e=5t1VNv) |
+|   SCRFD_10G    | 95.16 | 93.87  | 83.05 | 10G   | 3.86      | 4.9       | [download](https://1drv.ms/u/s!AswpsDO2toNKqyUKwTiwXv2kaa8o?e=umfepO) |
+|   SCRFD_34G    | 96.06 | 94.92  | 85.29 | 34G   | 9.80      | 11.7      | [download](https://1drv.ms/u/s!AswpsDO2toNKqyKZwFebVlmlOvzz?e=V2rqUy) |
+| SCRFD_500M_KPS | 90.97 | 88.44  | 69.49 | 500M  | 0.57      | 3.6      | [download](https://1drv.ms/u/s!AswpsDO2toNKri_NDM0GIkPpkE2f?e=JkebJo) |
+| SCRFD_2.5G_KPS | 93.80 | 92.02  | 77.13 | 2.5G  | 0.82      | 4.3       | [download](https://1drv.ms/u/s!AswpsDO2toNKqyGlhxnCg3smyQqX?e=A6Hufm) |
+| SCRFD_10G_KPS  | 95.40 | 94.01  | 82.80 | 10G   | 4.23      | 5.0       | [download](https://1drv.ms/u/s!AswpsDO2toNKqycsF19UbaCWaLWx?e=F6i5Vm) |
+
+mAP, FLOPs and inference latency are all evaluated on VGA resolution.
+``_KPS`` means the model includes 5 keypoints prediction.
+
+## Convert to ONNX
+
+Please refer to `tools/scrfd2onnx.py`
+
+Generated onnx model can accept dynamic input as default.
+
+You can also set specific input shape by pass ``--shape 640 640``, then output onnx model can be optimized by onnx-simplifier.
+
+
+## Inference
+
+Please refer to `tools/scrfd.py` which uses onnxruntime to do inference.
+
+## Network Search
+
+For two-steps search as we described in paper, we target hard mAP on how we select best candidate models.
+
+We provide an example for searching SCRFD-2.5GF in this repo as below.
+
+1. For searching backbones: 
+
+    ```
+    python search_tools/generate_configs_2.5g.py --mode 1
+    ```
+   Where ``mode==1`` means searching backbone only. For other parameters, please check the code.
+2. After step-1 done, there will be ``configs/scrfdgen2.5g/scrfdgen2.5g_1.py`` to ``configs/scrfdgen2.5g/scrfdgen2.5g_64.py`` if ``num_configs`` is set to 64.
+3. Do training for every generated configs for 80 epochs, please check ``search_tools/search_train.sh``
+4. Test WIDERFace precision for every generated configs, using ``search_tools/search_test.sh``.
+5. Select the top accurate config as the base template(assume the 10-th config is the best), then do the overall network search. 
+    ```
+    python search_tools/generate_configs_2.5g.py --mode 2 --template 10
+    ```
+6. Test these new generated configs again and select the top accurate one(s).
+
+
+## Acknowledgments
+
+We thank [nihui](https://github.com/nihui) for the excellent [mobile-phone demo](https://github.com/nihui/ncnn-android-scrfd).
+
+## Demo
+
+1. [ncnn-android-scrfd](https://github.com/nihui/ncnn-android-scrfd)
+2. [scrfd-MNN C++](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/mnn/cv/mnn_scrfd.cpp)
+3. [scrfd-TNN C++](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/tnn/cv/tnn_scrfd.cpp)
+4. [scrfd-NCNN C++](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/ncnn/cv/ncnn_scrfd.cpp)
+5. [scrfd-ONNXRuntime C++](https://github.com/DefTruth/lite.ai.toolkit/blob/main/lite/ort/cv/scrfd.cpp)
+6. [TensorRT Python](https://github.com/SthPhoenix/InsightFace-REST/blob/master/src/api_trt/modules/model_zoo/detectors/scrfd.py)
+7. [Modelscope demo for rotated face](https://modelscope.cn/models/damo/cv_resnet_facedetection_scrfd10gkps/summary)
+8. [Modelscope demo for card detection](https://modelscope.cn/models/damo/cv_resnet_carddetection_scrfd34gkps/summary)
