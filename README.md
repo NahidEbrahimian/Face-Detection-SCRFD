@@ -4,60 +4,8 @@ SCRFD is an efficient high accuracy face detection approach which initially desc
 
 Try out the Gradio Web Demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/hysts/insightface-SCRFD)
 
-<img src="https://github.com/nttstar/insightface-resources/blob/master/images/scrfd_evelope.jpg" width="400" alt="prcurve"/>
-
-## Performance
-
-Precision, flops and infer time are all evaluated on **VGA resolution**.
-
-#### ResNet family
-
-| Method              | Backbone        | Easy  | Medium | Hard  | \#Params(M) | \#Flops(G) | Infer(ms) |
-| ------------------- | --------------- | ----- | ------ | ----- | ----------- | ---------- | --------- |
-| DSFD (CVPR19)       | ResNet152       | 94.29 | 91.47  | 71.39 | 120.06      | 259.55     | 55.6      |
-| RetinaFace (CVPR20) | ResNet50        | 94.92 | 91.90  | 64.17 | 29.50       | 37.59      | 21.7      |
-| HAMBox (CVPR20)     | ResNet50        | 95.27 | 93.76  | 76.75 | 30.24       | 43.28      | 25.9      |
-| TinaFace (Arxiv20)  | ResNet50        | 95.61 | 94.25  | 81.43 | 37.98       | 172.95     | 38.9      |
-| - | - | - | - | - | - | - | - |
-| ResNet-34GF         | ResNet50        | 95.64 | 94.22  | 84.02 | 24.81       | 34.16      | 11.8      |
-| **SCRFD-34GF**      | Bottleneck Res  | 96.06 | 94.92  | 85.29 | 9.80        | 34.13      | 11.7      |
-| ResNet-10GF         | ResNet34x0.5    | 94.69 | 92.90  | 80.42 | 6.85        | 10.18      | 6.3       |
-| **SCRFD-10GF**      | Basic Res       | 95.16 | 93.87  | 83.05 | 3.86        | 9.98       | 4.9       |
-| ResNet-2.5GF        | ResNet34x0.25   | 93.21 | 91.11  | 74.47 | 1.62        | 2.57       | 5.4       |
-| **SCRFD-2.5GF**     | Basic Res       | 93.78 | 92.16  | 77.87 | 0.67        | 2.53       | 4.2       |
-
-
-#### Mobile family
-
-| Method              | Backbone        | Easy  | Medium | Hard  | \#Params(M) | \#Flops(G) | Infer(ms) |
-| ------------------- | --------------- | ----- | ------ | ----- | ----------- | ---------- | --------- |
-| RetinaFace (CVPR20) | MobileNet0.25   | 87.78 | 81.16  | 47.32 | 0.44        | 0.802      | 7.9       |
-| FaceBoxes (IJCB17)  | -               | 76.17 | 57.17  | 24.18 | 1.01        | 0.275      | 2.5       |
-| - | - | - | - | - | - | - | - |
-| MobileNet-0.5GF     | MobileNetx0.25  | 90.38 | 87.05  | 66.68 | 0.37        | 0.507      | 3.7       |
-| **SCRFD-0.5GF**     | Depth-wise Conv | 90.57 | 88.12  | 68.51 | 0.57        | 0.508      | 3.6       |
-
-
-**X64 CPU Performance of SCRFD-0.5GF:**
-
-| Test-Input-Size         | CPU Single-Thread   | Easy  | Medium | Hard  |
-| ----------------------- | -----------------   | ----- | ------ | ----- |
-| Original-Size(scale1.0) | -                   | 90.91 | 89.49  | 82.03 |
-| 640x480                 | 28.3ms              | 90.57 | 88.12  | 68.51 |
-| 320x240                 | 11.4ms              | -     | -      | -     |
-
-*precision and infer time are evaluated on AMD Ryzen 9 3950X, using the simple PyTorch CPU inference by setting `OMP_NUM_THREADS=1` (no mkldnn).*
-
 ## Installation
 
-Please refer to [mmdetection](https://github.com/open-mmlab/mmdetection/blob/master/docs/en/get_started.md#installation) for installation.
- 
-  1. Install [mmcv](https://github.com/open-mmlab/mmcv). (mmcv-full==1.2.6 and 1.3.3 was tested)
-  2. Install build requirements and then install mmdet.
-       ```
-       pip install -r requirements/build.txt
-       pip install -v -e .  # or "python setup.py develop"
-       ```
 
 ## Data preparation
 
