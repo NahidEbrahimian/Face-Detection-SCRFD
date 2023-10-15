@@ -3,7 +3,8 @@
 
 ## Installation
 
-1- 
+1- Run bash script
+
 cuda: 11.2
 
 ```
@@ -17,7 +18,16 @@ git checkout Face-Detection-SCRF
 source install.sh
 ```
 
-2- docker (requires net connection):
+2- Using with docker:
+
+requires: docker version >=19.03 and container toolkit
+
+docker instalation:
+https://docs.docker.com/engine/install/debian/
+
+Container Toolkit:
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+
 
 ```
 # Docker build
