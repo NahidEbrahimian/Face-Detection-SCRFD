@@ -7,8 +7,7 @@
 # Clone repository
 https://github.com/NahidEbrahimian/Face-Detection-SCRFD.git
 
-# Checkout
-git checkout Face-Detection-SCRF
+cd ./Face-Detection-SCRF
 ```
 
 1- Run bash script
