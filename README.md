@@ -3,6 +3,32 @@
 
 ## Installation
 
+1- 
+cuda: 11.2
+
+```
+# Clone repository
+https://github.com/NahidEbrahimian/Face-Detection-SCRFD.git
+
+# Checkout
+git checkout Face-Detection-SCRF
+
+# Run install.sh
+source install.sh
+```
+
+2- docker (requires net connection):
+
+```
+# Docker build
+sudo docker build --no-cache -t scrfd-env .
+
+# Docker run
+sudo docker run -d -it --gpus '"device=0,1"' --ipc=host scrfd-env:latest
+
+# Multi gpu
+CUDA_VISIBLE_DEVICES="0,1" PORT=29701 bash ./tools/dist_train.sh ./configs/scrfd/scrfd_500m_bnkps.py 2
+```
 
 ## Data preparation
 
